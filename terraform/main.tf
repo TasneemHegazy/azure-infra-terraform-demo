@@ -13,8 +13,8 @@
    }
 
    resource "azurerm_resource_group" "main" {
-     name     = "devops-demo-rg"
-     location = "germanywestcentral"
+     name     = var.resource_group_name
+     location = var.location
    }
 
    resource "azurerm_kubernetes_cluster" "main" {
