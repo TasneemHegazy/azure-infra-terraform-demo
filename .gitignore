@@ -4,6 +4,8 @@
 crash.log
 .terraform/
 .terraform.lock.hcl
-.terraform.tfstate.lock.info
 terraform.tfvars
 terraform.tfvars.json
+
+# Ignore unsealed secrets
+k8s/*-secret.yaml
