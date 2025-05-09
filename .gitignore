@@ -9,3 +9,4 @@ terraform.tfvars.json
 
 # Ignore unsealed secrets
 k8s/*-secret.yaml
+devops-infra/templates/*secret.yaml
