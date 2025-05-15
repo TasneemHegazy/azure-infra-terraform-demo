@@ -14,6 +14,8 @@ spec:
       labels:
         app: sqlserver
     spec:
+      securityContext:
+        fsGroup: 10001
       containers:
       - name: sqlserver
         image: mcr.microsoft.com/mssql/server:2022-latest
