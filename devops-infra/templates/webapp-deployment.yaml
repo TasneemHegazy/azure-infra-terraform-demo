@@ -4,7 +4,7 @@ metadata:
   name: webapp
   namespace: {{ .Values.namespace }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.webapp.replicas }}
   selector:
     matchLabels:
       app: webapp
@@ -15,14 +15,14 @@ spec:
     spec:
       containers:
       - name: webapp
-        image: mcr.microsoft.com/dotnet/samples:aspnetapp
+        image: {{ .Values.webapp.image }}
         ports:
         - containerPort: 80
         env:
         - name: SA_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: webapp-sqlserver-secret
+              name: {{ .Values.webapp.sqlserverSecretName }}
               key: SA_PASSWORD
         - name: ConnectionStrings__DefaultConnection
           value: "Server=sqlserver;Database=master;User=sa;Password=$(SA_PASSWORD);"
