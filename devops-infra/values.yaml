@@ -121,3 +121,14 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+namespace: devops-demo
+
+sqlserver:
+  name: sqlserver
+  port: 1433
+  image: mcr.microsoft.com/mssql/server:2022-latest
+  replicas: 1
+  storage: 10Gi
+  secretName: sqlserver-secret
+  sealedPassword: AgBJ4mHbJFjbTE1W4ZRcGfIuOlyo8EBhNVSbKrVm33gf+oa+km07gDkC6xxnOe0CZVH7TBWBB5OpJeMuWRH1Tlcv67g3IDn9+hrZS18LP/WC4r8YAZOaDUe1EG3qJ5v9+0g0bmTKGnjiM7uoBwSPORKlPtJ3TAi+/CoZzZT8JKb+GBSpLd7tmqjk1LY++dYziK1tPPucoNEAtvWT8nkvpwdoxncAcjIKcSEClpZL1dpDQ3DJkc6mGJf+k43ksBX4yLzPYIUI2pC62aaMY3kQk81YntUnz3umSLUBoM9HEL6kiIZykqx4tTf+YuvGrJSyV7k9JhKMrJrzyywOR7EoCSSEE22WF6ykYwMJH7pICWgWcCFsODZcNZ+qOEV9Sb0WIbkZb5dAL6t54SAML1O8hXw1ISAFP4sCgZPCgIEPk+ihPD+8+BjdONl8HXKskO50rokMAHrb7q5SUoiY2oZwcYBF1EhBd/J9rkGiO+lJOFFt5dV4wEZDbgtEjY9L5dnebUWKGWeSVLod9SHY8dsP3XGaLKjd2zaGHf/TAYmRX8ymmWp9z5LcsZgNYDcI33YHwf+8bT7GnwxR5UL3/2zV8BNpkafGdhWFrfIwtYUZ0lGkn1tRd1SnavgfiH/LQtdgx8u5f52NM80ugQ1CMRLttBuQtvJo7J16QzeLrVigbqKKhNGw1+1hQG2IACvR4xJnWSY4e+x4eLHjG0tOW+ZwwDyYZ/qCr6RUHyH86BPHsf8=
