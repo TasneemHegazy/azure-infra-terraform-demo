@@ -4,7 +4,7 @@ metadata:
   name: webapp
   namespace: {{ .Values.namespace }}
 spec:
-  replicas: {{ .Values.webapp.replicas }}
+  replicas: 1
   selector:
     matchLabels:
       app: webapp
@@ -17,7 +17,7 @@ spec:
       - name: webapp
         image: {{ .Values.webapp.image }}
         ports:
-        - containerPort: 80
+        - containerPort: 8080
         env:
         - name: SA_PASSWORD
           valueFrom:
