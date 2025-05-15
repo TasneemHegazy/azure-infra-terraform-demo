@@ -122,8 +122,6 @@ tolerations: []
 
 affinity: {}
 
-namespace: devops-demo
-
 sqlserver:
   name: sqlserver
   port: 1433
