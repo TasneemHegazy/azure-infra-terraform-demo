@@ -2,10 +2,10 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: sqlserver
-  namespace: devops-demo
+  namespace: {{ .Values.namespace }}
 spec:
   serviceName: "sqlserver"
-  replicas: 1
+  replicas: {{ .Values.sqlserver.replicas }}
   selector:
     matchLabels:
       app: sqlserver
@@ -18,7 +18,7 @@ spec:
         fsGroup: 10001
       containers:
       - name: sqlserver
-        image: mcr.microsoft.com/mssql/server:2022-latest
+        image: {{ .Values.sqlserver.image }}
         ports:
         - containerPort: 1433
         env:
@@ -27,7 +27,7 @@ spec:
         - name: SA_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: sqlserver-secret
+              name: {{ .Values.sqlserver.secretName }}
               key: SA_PASSWORD
         volumeMounts:
         - name: sqlserver-persistent-storage
@@ -39,4 +39,4 @@ spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
-          storage: 10Gi
+          storage: {{ .Values.sqlserver.storage }}

@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mongodb
-  namespace: devops-demo
+  namespace: {{ .Values.namespace }}
 spec:
   ports:
     - port: 27017
