@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webapp
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+      - name: webapp
+        image: {{ .Values.webapp.image }}
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SA_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.webapp.sqlserverSecretName }}
+              key: SA_PASSWORD
+        - name: ConnectionStrings__DefaultConnection
+          value: "Server=sqlserver;Database=master;User=sa;Password=$(SA_PASSWORD);"
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Production"
