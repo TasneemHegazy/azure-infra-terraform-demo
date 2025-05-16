@@ -2,10 +2,10 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: mongodb
-  namespace: devops-demo
+  namespace: {{ .Values.namespace }}
 spec:
   serviceName: "mongodb"
-  replicas: 1
+  replicas: {{ .Values.mongodb.replicas }}
   selector:
     matchLabels:
       app: mongodb
@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: mongodb
-        image: mongo:6
+        image: {{ .Values.mongodb.image }}
         ports:
         - containerPort: 27017
         volumeMounts:
@@ -29,4 +29,4 @@ spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
-          storage: 5Gi
+          storage: {{ .Values.mongodb.storage }}

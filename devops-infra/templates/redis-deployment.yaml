@@ -2,10 +2,10 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: redis
-  namespace: devops-demo
+  namespace: {{ .Values.namespace }}
 spec:
   serviceName: "redis"
-  replicas: 1
+  replicas: {{ .Values.redis.replicas }}
   selector:
     matchLabels:
       app: redis
@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: redis
-        image: redis:7
+        image: {{ .Values.redis.image }}
         ports:
         - containerPort: 6379
         volumeMounts:
@@ -29,4 +29,4 @@ spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
-          storage: 2Gi
+          storage: {{ .Values.redis.storage }}

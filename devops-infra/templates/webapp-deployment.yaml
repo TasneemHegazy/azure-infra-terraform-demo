@@ -4,7 +4,7 @@ metadata:
   name: webapp
   namespace: {{ .Values.namespace }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.webapp.replicas }}
   selector:
     matchLabels:
       app: webapp
