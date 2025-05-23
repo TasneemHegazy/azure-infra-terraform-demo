@@ -37,6 +37,7 @@ spec:
       name: sqlserver-persistent-storage
     spec:
       accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ .Values.storageClassName }}
       resources:
         requests:
           storage: {{ .Values.sqlserver.storage }}

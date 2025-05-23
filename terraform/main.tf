@@ -23,9 +23,11 @@
      resource_group_name = azurerm_resource_group.main.name
      dns_prefix          = "devopsdemo"
 
+     sku_tier = "Free"
+
      default_node_pool {
        name       = "default"
-       node_count = 2
+       node_count = 1
        vm_size    = "Standard_B2s"
      }
 
