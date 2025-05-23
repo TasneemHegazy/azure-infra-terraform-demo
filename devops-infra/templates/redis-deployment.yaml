@@ -27,6 +27,7 @@ spec:
       name: redis-persistent-storage
     spec:
       accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ .Values.storageClassName }}
       resources:
         requests:
           storage: {{ .Values.redis.storage }}

@@ -1,32 +1,33 @@
-apiVersion: apps/v1
-kind: StatefulSet
-metadata:
-  name: mongodb
+   apiVersion: apps/v1
+   kind: StatefulSet
+   metadata:
+     name: mongodb
   namespace: {{ .Values.namespace }}
-spec:
-  serviceName: "mongodb"
+   spec:
+     serviceName: "mongodb"
   replicas: {{ .Values.mongodb.replicas }}
-  selector:
-    matchLabels:
-      app: mongodb
-  template:
-    metadata:
-      labels:
-        app: mongodb
-    spec:
-      containers:
-      - name: mongodb
+     selector:
+       matchLabels:
+         app: mongodb
+     template:
+       metadata:
+         labels:
+           app: mongodb
+       spec:
+         containers:
+         - name: mongodb
         image: {{ .Values.mongodb.image }}
-        ports:
-        - containerPort: 27017
-        volumeMounts:
-        - name: mongo-persistent-storage
-          mountPath: /data/db
-  volumeClaimTemplates:
-  - metadata:
-      name: mongo-persistent-storage
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      resources:
-        requests:
+           ports:
+           - containerPort: 27017
+           volumeMounts:
+           - name: mongo-persistent-storage
+             mountPath: /data/db
+     volumeClaimTemplates:
+     - metadata:
+         name: mongo-persistent-storage
+       spec:
+         accessModes: [ "ReadWriteOnce" ]
+         storageClassName: {{ .Values.storageClassName }}
+         resources:
+           requests:
           storage: {{ .Values.mongodb.storage }}
