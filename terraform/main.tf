@@ -50,9 +50,19 @@ provider "helm" {
   }
 }
 
+resource "helm_release" "sealed_secrets" {
+  name       = "sealed-secrets"
+  namespace  = "kube-system"
+  repository = "https://bitnami-labs.github.io/sealed-secrets"
+  chart      = "sealed-secrets"
+  version    = "2.17.2"
+}
+
 resource "helm_release" "devops_infra" {
   name       = "devops-infra"
   namespace  = "devops-demo"
-  chart      = "../devops-infra" # path to your chart
+  chart      = "../devops-infra" 
   values     = [file("../devops-infra/values.yaml")]
+
+  depends_on = [helm_release.sealed_secrets]
 }
