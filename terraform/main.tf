@@ -58,6 +58,12 @@ resource "helm_release" "sealed_secrets" {
   version    = "2.17.2"
 }
 
+resource "kubernetes_namespace" "devops_demo" {
+  metadata {
+    name = "devops-demo"
+  }
+}
+
 resource "helm_release" "devops_infra" {
   name       = "devops-infra"
   namespace  = "devops-demo"
