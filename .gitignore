@@ -7,5 +7,7 @@ crash.log
 terraform.tfvars
 terraform.tfvars.json
 
-# Ignore unsealed secrets
-k8s/*-secret.yaml
+# Ignore unsealed secret
+*secret.yaml
+secrets/*.secret.yaml
+!secrets/*-sealedsecret.yaml
