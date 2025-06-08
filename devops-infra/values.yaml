@@ -1,6 +1,6 @@
 # Default values for devops-infra.
 namespace: devops-demo
-storageClassName: standard_hdd
+storageClassName: default
 
 sqlserver:
   image: mcr.microsoft.com/mssql/server:2022-latest
