@@ -70,7 +70,7 @@ resource "helm_release" "devops_infra" {
   chart      = "../devops-infra" 
   values     = [file("../devops-infra/values.yaml")]
 
-  depends_on = [helm_release.sealed_secrets]
+  depends_on = [helm_release.sealed_secrets, kubernetes_namespace.devops_demo]
 }
 
 # resource "kubernetes_manifest" "sqlserver_sealedsecret" {
@@ -89,6 +89,7 @@ resource "helm_release" "cert_manager" {
   repository = "https://charts.jetstack.io"
   chart      = "cert-manager"
   version    = "v1.14.4"
+  create_namespace = true
   set {
     name  = "installCRDs"
     value = "true"
