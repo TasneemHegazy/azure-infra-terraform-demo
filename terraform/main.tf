@@ -73,12 +73,34 @@ resource "helm_release" "devops_infra" {
   depends_on = [helm_release.sealed_secrets]
 }
 
-resource "kubernetes_manifest" "sqlserver_sealedsecret" {
-  manifest = yamldecode(file("${path.module}/../secrets/sqlserver-sealedsecret.yaml"))
-  depends_on = [helm_release.sealed_secrets, kubernetes_namespace.devops_demo]
+# resource "kubernetes_manifest" "sqlserver_sealedsecret" {
+#   manifest = yamldecode(file("${path.module}/../secrets/sqlserver-sealedsecret.yaml"))
+#   depends_on = [helm_release.sealed_secrets, kubernetes_namespace.devops_demo]
+# }
+
+# resource "kubernetes_manifest" "webapp_sqlserver_sealedsecret" {
+#   manifest = yamldecode(file("${path.module}/../secrets/webapp-sqlserver-sealedsecret.yaml"))
+#   depends_on = [helm_release.sealed_secrets, kubernetes_namespace.devops_demo]
+# }
+
+resource "helm_release" "cert_manager" {
+  name       = "cert-manager"
+  namespace  = "cert-manager"
+  repository = "https://charts.jetstack.io"
+  chart      = "cert-manager"
+  version    = "v1.14.4"
+  set {
+    name  = "installCRDs"
+    value = "true"
+  }
 }
 
-resource "kubernetes_manifest" "webapp_sqlserver_sealedsecret" {
-  manifest = yamldecode(file("${path.module}/../secrets/webapp-sqlserver-sealedsecret.yaml"))
-  depends_on = [helm_release.sealed_secrets, kubernetes_namespace.devops_demo]
-}
+# resource "kubernetes_manifest" "letsencrypt_clusterissuer" {
+#   manifest = yamldecode(file("${path.module}/../secrets/letsencrypt-clusterissuer.yaml"))
+#   depends_on = [helm_release.cert_manager]
+# }
+
+# resource "kubernetes_manifest" "webapp_certificate" {
+#   manifest = yamldecode(file("${path.module}/../secrets/webapp-certificate.yaml"))
+#   depends_on = [helm_release.cert_manager, kubernetes_namespace.devops_demo]
+# }

@@ -23,4 +23,12 @@ redis:
   image: redis:7
   replicas: 1
   storage: 1Gi
+
+ingress:
+  enabled: true  
+  host: "aks.infrahub.systems"  
+  tls:
+    enabled: true  
+    secretName: webapp-tls
+    clusterIssuer: letsencrypt-staging
   
