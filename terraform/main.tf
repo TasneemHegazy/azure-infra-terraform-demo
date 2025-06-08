@@ -4,6 +4,10 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "~> 3.0"
     }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = ">= 2.11.0"
+    }
   }
   required_version = ">= 1.0.0"
 }
@@ -70,7 +74,7 @@ resource "helm_release" "devops_infra" {
   chart      = "../devops-infra" 
   values     = [file("../devops-infra/values.yaml")]
 
-  depends_on = [helm_release.sealed_secrets]
+  depends_on = [helm_release.sealed_secrets, kubernetes_namespace.devops_demo]
 }
 
 resource "kubernetes_manifest" "sqlserver_sealedsecret" {
@@ -82,3 +86,36 @@ resource "kubernetes_manifest" "webapp_sqlserver_sealedsecret" {
   manifest = yamldecode(file("${path.module}/../secrets/webapp-sqlserver-sealedsecret.yaml"))
   depends_on = [helm_release.sealed_secrets, kubernetes_namespace.devops_demo]
 }
+
+resource "helm_release" "cert_manager" {
+  name       = "cert-manager"
+  namespace  = "cert-manager"
+  repository = "https://charts.jetstack.io"
+  chart      = "cert-manager"
+  version    = "v1.14.4"
+  create_namespace = true
+  set {
+    name  = "installCRDs"
+    value = "true"
+  }
+}
+
+resource "kubernetes_manifest" "letsencrypt_clusterissuer" {
+  manifest = yamldecode(file("${path.module}/../secrets/letsencrypt-clusterissuer.yaml"))
+  depends_on = [helm_release.cert_manager]
+}
+
+resource "helm_release" "nginx_ingress" {
+  name       = "ingress-nginx"
+  namespace  = "ingress-nginx"
+  repository = "https://kubernetes.github.io/ingress-nginx"
+  chart      = "ingress-nginx"
+  version    = "4.12.3"
+  create_namespace = true
+
+  set {
+    name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/azure-load-balancer-health-probe-request-path"
+    value = "/healthz"
+  }
+}
+

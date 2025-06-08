@@ -4,7 +4,7 @@ metadata:
   name: webapp
   namespace: {{ .Values.namespace }}
 spec:
-  type: LoadBalancer
+  type: {{ .Values.webapp.serviceType }}
   ports:
     - port: 80
       targetPort: 8080

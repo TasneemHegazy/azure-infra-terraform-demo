@@ -1,6 +1,6 @@
 # Default values for devops-infra.
 namespace: devops-demo
-storageClassName: standard_hdd
+storageClassName: default
 
 sqlserver:
   image: mcr.microsoft.com/mssql/server:2022-latest
@@ -13,6 +13,7 @@ webapp:
   sqlserverSecretName: webapp-sqlserver-secret
   image: mcr.microsoft.com/dotnet/samples:aspnetapp
   replicas: 1
+  serviceType: ClusterIP
 
 mongodb:
   image: mongo:6
@@ -23,4 +24,12 @@ redis:
   image: redis:7
   replicas: 1
   storage: 1Gi
+
+ingress:
+  enabled: true  
+  host: "aks.infrahub.systems"  
+  tls:
+    enabled: true  
+    secretName: webapp-tls
+    clusterIssuer: letsencrypt-staging
   
