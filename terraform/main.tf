@@ -105,7 +105,3 @@ resource "kubernetes_manifest" "letsencrypt_clusterissuer" {
   depends_on = [helm_release.cert_manager]
 }
 
-resource "kubernetes_manifest" "webapp_certificate" {
-  manifest = yamldecode(file("${path.module}/../secrets/webapp-certificate.yaml"))
-  depends_on = [helm_release.cert_manager, kubernetes_namespace.devops_demo]
-}
