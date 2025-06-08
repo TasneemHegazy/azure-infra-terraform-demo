@@ -13,6 +13,7 @@ webapp:
   sqlserverSecretName: webapp-sqlserver-secret
   image: mcr.microsoft.com/dotnet/samples:aspnetapp
   replicas: 1
+  serviceType: ClusterIP
 
 mongodb:
   image: mongo:6
